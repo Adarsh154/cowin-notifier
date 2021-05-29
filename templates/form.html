@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block body %}
+<form  action="/form" method="POST">
+  <div class="mb-3">
+    <label for="InputEmail1" class="form-label">Email address</label>
+    <input type="email" class="form-control" name="email" id="InputEmail1" aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <label for="InputDist" class="form-label">District</label>
+    <select id="InputDist" name="dist">
+      <option value="270 Bagalkot">270 Bagalkot</option>
+      <option value="276 Bangalore Rural">276 Bangalore Rural</option>
+      <option value="265 Bangalore Urban">265 Bangalore Urban</option>
+      <option value="83 Banka">83 Banka</option>
+      <option value="294 BBMP">294 BBMP</option>
+      <option value="264 Belgaum">264 Belgaum</option>
+      <option value="274 Bellary">274 Bellary</option>
+      <option value="272 Bidar">272 Bidar</option>
+      <option value="271 Chamarajanagar">271 Chamarajanagar</option>
+      <option value="273 Chikamagalur">273 Chikamagalur</option>
+      <option value="291 Chikkaballapur">291 Chikkaballapur</option>
+      <option value="268 Chitradurga">268 Chitradurga</option>
+      <option value="269 Dakshina Kannada">269 Dakshina Kannada</option>
+      <option value="275 Davanagere">275 Davanagere</option>
+      <option value="278 Dharwad">278 Dharwad</option>
+      <option value="280 Gadag">280 Gadag</option>
+      <option value="267 Gulbarga">267 Gulbarga</option>
+      <option value="289 Hassan">289 Hassan</option>
+      <option value="279 Haveri">279 Haveri</option>
+      <option value="283 Kodagu">283 Kodagu</option>
+      <option value="282 Koppal">282 Koppal</option>
+      <option value="290 Mandya">290 Mandya</option>
+      <option value="266 Mysore">266 Mysore</option>
+      <option value="292 Ramanagara">292 Ramanagara</option>
+      <option value="287 Shimoga">287 Shimoga</option>
+      <option value="288 Tumkur">288 Tumkur</option>
+      <option value="286 Udupi">286 Udupi</option>]
+      <option value="281 Uttar Kannada">281 Uttar Kannada</option>
+      <option value="285 Yadgir">285 Yadgir</option>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputage" class="form-label">Age</label>
+    <select id="exampleInputage" name="age">
+    <option value="18">Under 18</option>
+    </select>
+  </div>
+  <button type="submit"  class="btn btn-primary">Get Notified</button>
+</form>
+{% endblock %}
