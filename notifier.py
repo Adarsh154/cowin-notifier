@@ -2,7 +2,15 @@ import smtplib
 import time
 from datetime import date
 import requests
-import sqlite3
+import mysql.connector
+
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="password",
+  database="users"
+)
+
 
 
 def check_avail(users, current_date):
@@ -51,10 +59,12 @@ def send_mail(names, email):
     s.quit()
 
 
-con = sqlite3.connect('users.sqlite3')
-cursorObj = con.cursor()
+
 while True:
-    cursorObj.execute('SELECT * FROM user_data')
-    rows = cursorObj.fetchall()
+    mycursor = mydb.cursor()
+
+    mycursor.execute("SELECT * FROM user_data")
+
+    rows = mycursor.fetchall()
     current_date = date.today().strftime("%d-%m-%Y")
     check_avail(rows, current_date)

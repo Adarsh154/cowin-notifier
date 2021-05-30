@@ -4,7 +4,7 @@ from sqlalchemy import exc
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:password@localhost/users'
 db = SQLAlchemy(app)
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SECRET_KEY'] = 'super secret key'
@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = 'super secret key'
 class userData(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    dist = db.Column(db.Integer, nullable=False)
+    dist = db.Column(db.String(120), nullable=False)
     age = db.Column(db.Integer, nullable=False)
 
     def __init__(self, email, dist, age):
