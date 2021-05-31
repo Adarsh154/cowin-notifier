@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for ,flash
+from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
 
@@ -34,7 +34,7 @@ def index():
 @app.route('/form', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
-        if request.form['email'] and request.form['dist']:
+        if request.form['email'] and request.form['dist'] and (not request.form['dist'] == "District"):
             email = request.form['email']
             dist = request.form['dist']
             age = request.form['age']
@@ -49,10 +49,9 @@ def login():
                 flash("Email id already registered")
                 return redirect(url_for('index'))
         else:
-            flash("Enter valid details")
+            flash("Please enter valid details")
             return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
+    app.run(host='0.0.0.0', port=8080, debug=True)
