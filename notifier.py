@@ -56,7 +56,8 @@ def check_avail(users, current_date):
             if names != '':
                 logger.info("Triggered")
                 send_mail(names[: -1], user[1])
-        except:
+        except Exception as email_send:
+            logger.error(email_send)
             continue
 
 
