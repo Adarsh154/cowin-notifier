@@ -74,6 +74,7 @@ def send_mail(names, email):
     # terminating the session
 
     if email != 'aj1541998@gmail.com':
+        mycursor = mydb.cursor()
         mycursor.execute("Delete FROM user_data WHERE email='{}'".format(email))
         mydb.commit()
 
