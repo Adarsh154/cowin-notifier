@@ -1,16 +1,38 @@
+import logging
 import smtplib
 import time
 from datetime import date
-import requests
+
 import mysql.connector
+import requests
 
 mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="password",
-  database="users"
+    host="localhost",
+    user="root",
+    password="password",
+    database="users"
 )
+logging.basicConfig(filename="std.log",
+                    format='%(asctime)s %(message)s',
+                    filemode='w')
 
+# Let us Create an object
+logger = logging.getLogger()
+
+# Now we are going to Set the threshold of logger to Info
+logger.setLevel(logging.INFO)
+
+
+try:
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+
+    # start TLS for security
+    s.starttls()
+
+    # Authentication
+    s.login("adarshtalesara2@gmail.com", "password")
+except Exception as e:
+    logger.info(e)
 
 
 def check_avail(users, current_date):
@@ -29,23 +51,17 @@ def check_avail(users, current_date):
             for centre in locations['centers']:
                 for session in centre['sessions']:
                     if (session['min_age_limit'] == user[3]) and (session['available_capacity'] > 0):
-                        names += str(centre['name']) + ","
+                        if centre['name'] not in names:
+                            names += str(centre['name']) + ","
             if names != '':
+                logger.info("Triggered")
                 send_mail(names[: -1], user[1])
-        except Exception as e:
-            send_mail(e, "aj1541998@gmail.com")
+        except:
             continue
 
 
 def send_mail(names, email):
     # creates SMTP session
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-
-    # start TLS for security
-    s.starttls()
-
-    # Authentication
-    s.login("adarshtalesara2@gmail.com", "password")
 
     # message to be sent
     message = """Subject: Covid notification \n
@@ -56,8 +72,10 @@ def send_mail(names, email):
     s.sendmail("adarshtalesara2@gmail.com", email, message)
 
     # terminating the session
-    s.quit()
 
+    if email != 'aj1541998@gmail.com':
+        mycursor.execute("Delete FROM user_data WHERE email='{}'".format(email))
+        mydb.commit()
 
 
 while True:
