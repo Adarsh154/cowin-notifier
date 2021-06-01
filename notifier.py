@@ -14,7 +14,7 @@ mydb = mysql.connector.connect(
 )
 logging.basicConfig(filename="std.log",
                     format='%(asctime)s %(message)s',
-                    filemode='w')
+                    filemode='a')
 
 # Let us Create an object
 logger = logging.getLogger()
