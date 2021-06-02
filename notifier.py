@@ -2,14 +2,14 @@ import logging
 import smtplib
 import time
 from datetime import date
-
+from config import Email_app_password,db_password
 import mysql.connector
 import requests
 
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="password",
+    password=db_password,
     database="users"
 )
 logging.basicConfig(filename="std.log",
@@ -23,16 +23,17 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-try:
-    s = smtplib.SMTP('smtp.gmail.com', 587)
-
-    # start TLS for security
-    s.starttls()
-
-    # Authentication
-    s.login("adarshtalesara2@gmail.com", "password")
-except Exception as e:
-    logger.info(e)
+# try:
+#     s = smtplib.SMTP('smtp.gmail.com', 587)
+#
+#     # start TLS for security
+#     s.starttls()
+#
+#     # Authentication
+#     s.login("adarshtalesara2@gmail.com", "password")
+#     s.quit()
+# except Exception as e:
+#     logger.info(e)
 
 
 def check_avail(users, current_date):
@@ -50,7 +51,7 @@ def check_avail(users, current_date):
             locations = x.json()
             for centre in locations['centers']:
                 for session in centre['sessions']:
-                    if (session['min_age_limit'] == user[3]) and (session['available_capacity'] > 0):
+                    if (session['min_age_limit'] == user[3]) and (session[user[4]] > 0):
                         if centre['name'] not in names:
                             names += str(centre['name']) + ","
             if names != '':
@@ -63,7 +64,13 @@ def check_avail(users, current_date):
 
 def send_mail(names, email):
     # creates SMTP session
+    s = smtplib.SMTP('smtp.gmail.com', 587)
 
+    # start TLS for security
+    s.starttls()
+
+    # Authentication
+    s.login("adarshtalesara2@gmail.com", Email_app_password)
     # message to be sent
     message = """Subject: Covid notification \n
     Vaccine Available at {}
@@ -73,11 +80,10 @@ def send_mail(names, email):
     s.sendmail("adarshtalesara2@gmail.com", email, message)
 
     # terminating the session
-
-    if email != 'aj1541998@gmail.com':
-        mycursor = mydb.cursor()
-        mycursor.execute("Delete FROM user_data WHERE email='{}'".format(email))
-        mydb.commit()
+    s.quit()
+    mycursor2 = mydb.cursor()
+    mycursor2.execute("Delete FROM user_data WHERE email='{}'".format(email))
+    mydb.commit()
 
 
 while True:
