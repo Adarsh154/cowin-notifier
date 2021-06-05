@@ -53,7 +53,7 @@ def check_avail(users, current_date):
                 for session in centre['sessions']:
                     if (session['min_age_limit'] == user[3]) and (session[user[4]] > 0):
                         if centre['name'] not in names:
-                            names += str(centre['name']) + ","
+                            names += str(centre['name']) + "\n"
             if names != '':
                 logger.info("Triggered")
                 send_mail(names[: -1], user[1])
@@ -73,7 +73,7 @@ def send_mail(names, email):
     s.login("adarshtalesara2@gmail.com", Email_app_password)
     # message to be sent
     message = """Subject: Covid notification \n
-    Vaccine Available at {}
+    Vaccine Available at \n{}
     """.format(names)
 
     # sending the mail
